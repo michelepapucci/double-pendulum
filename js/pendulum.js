@@ -1,5 +1,5 @@
 $(function () {
-    const PATH_LENGTH_ON_SCREEN = 300;
+    const PATH_LENGTH_ON_SCREEN = 100;
 
     // Canvas variables
     let canvas = document.getElementById("mainCanvas");
