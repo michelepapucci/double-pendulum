@@ -1,5 +1,6 @@
 $(function () {
     const PATH_LENGTH_ON_SCREEN = 50;
+    const DAMPENING = 0.999;
 
     // Canvas variables
     let canvas = document.getElementById("mainCanvas");
@@ -11,11 +12,11 @@ $(function () {
     context.translate(offsetX, offsetY);
 
     //Length of the two rods
-    let rod1_l = 100;
+    let rod1_l = 50;
     let rod_l2 = 100;
 
     //Mass of the two bobs
-    let bob1_m = 10;
+    let bob1_m = 20 ;
     let bob2_m = 10;
 
     //Amplitudes, angular velocity and angular acceleration of the two bobs
@@ -75,6 +76,9 @@ $(function () {
         bob1_x += bob1_a_vel;
         bob2_x += bob2_a_vel;
 
+        bob1_x *= DAMPENING;
+        bob2_x *= DAMPENING;
+
         p_bob2_x = x2;
         p_bob2_y = y2;
     }
@@ -94,6 +98,9 @@ $(function () {
             }
         }
         context.closePath();
+
+        bob1_m = parseFloat($("#bob1_m").val());
+        bob2_m = parseFloat($("#bob2_m").val());
 
         calc();
 
