@@ -1,4 +1,8 @@
 $(function () {
+    $("#reset").on('click', function(){
+        init_bobs();
+    });
+
     const PATH_LENGTH_ON_SCREEN = 50;
     const DAMPENING = 0.999;
 
@@ -12,21 +16,21 @@ $(function () {
     context.translate(offsetX, offsetY);
 
     //Length of the two rods
-    let rod1_l = 50;
-    let rod_l2 = 100;
+    let rod1_l;
+    let rod2_l;
 
     //Mass of the two bobs
-    let bob1_m = 20 ;
-    let bob2_m = 10;
+    let bob1_m;
+    let bob2_m;
 
     //Amplitudes, angular velocity and angular acceleration of the two bobs
     //TODO: maybe objectify bobs?
-    let bob1_x = Math.PI / 2;
-    let bob2_x = Math.PI / 2;
-    let bob1_a_vel = 0;
-    let bob2_a_vel = 0;
-    let bob1_a_acc = 0;
-    let bob2_a_acc = 0;
+    let bob1_x;
+    let bob2_x;
+    let bob1_a_vel;
+    let bob2_a_vel;
+    let bob1_a_acc;
+    let bob2_a_acc;
     let p_bob2_x = 0;
     let p_bob2_y = 0;
 
@@ -47,25 +51,34 @@ $(function () {
     let x2 = 0;
     let y2 = 0;
 
+    function init_bobs() {
+        bob1_x = Math.PI / 2;
+        bob2_x = Math.PI / 2;
+        bob1_a_vel = 0;
+        bob2_a_vel = 0;
+        bob1_a_acc = 0;
+        bob2_a_acc = 0;
+    }
+
     function calc() {
         //calculate physics stuff i don't understand to update the amplitude
         let numerator = (-g * (2 * bob1_m + bob2_m) * Math.sin(bob1_x)) +
             (-bob2_m * g * Math.sin(bob1_x - 2 * bob2_x)) +
-            (-2 * Math.sin(bob1_x - bob2_x) * bob2_m) * (Math.pow(bob2_a_vel,2)* rod_l2 + Math.pow(bob1_a_vel,2) * rod1_l * Math.cos(bob1_x - bob2_x));
+            (-2 * Math.sin(bob1_x - bob2_x) * bob2_m) * (Math.pow(bob2_a_vel,2)* rod2_l + Math.pow(bob1_a_vel,2) * rod1_l * Math.cos(bob1_x - bob2_x));
         let denominator = rod1_l * (2 * bob1_m + bob2_m - bob2_m * Math.cos(2 * bob1_x - 2 * bob2_x));
         bob1_a_acc = numerator / denominator;
 
         numerator = (2 * Math.sin(bob1_x - bob2_x)) * ((Math.pow(bob1_a_vel,2) * rod1_l * (bob1_m + bob2_m)) +
-            (g * (bob1_m + bob2_m) * Math.cos(bob1_x)) + (Math.pow(bob2_a_vel,2) * rod_l2 * bob2_m * Math.cos(bob1_x - bob2_x)));
-        denominator = rod_l2 * (2 * bob1_m + bob2_m - bob2_m * Math.cos(2 * bob1_x - 2 * bob2_x));
+            (g * (bob1_m + bob2_m) * Math.cos(bob1_x)) + (Math.pow(bob2_a_vel,2) * rod2_l * bob2_m * Math.cos(bob1_x - bob2_x)));
+        denominator = rod2_l * (2 * bob1_m + bob2_m - bob2_m * Math.cos(2 * bob1_x - 2 * bob2_x));
         bob2_a_acc = numerator / denominator;
 
         //Calculate the current position of the bobs based on the amplitudes
         x1 = rod1_l * Math.sin(bob1_x);
         y1 = rod1_l * Math.cos(bob1_x);
 
-        x2 = x1 + rod_l2 * Math.sin(bob2_x);
-        y2 = y1 + rod_l2 * Math.cos(bob2_x);
+        x2 = x1 + rod2_l * Math.sin(bob2_x);
+        y2 = y1 + rod2_l * Math.cos(bob2_x);
     }
 
     function update(){
@@ -101,6 +114,8 @@ $(function () {
 
         bob1_m = parseFloat($("#bob1_m").val());
         bob2_m = parseFloat($("#bob2_m").val());
+        rod1_l = parseFloat($("#rod1_l").val());
+        rod2_l = parseFloat($("#rod2_l").val());
 
         calc();
 
@@ -130,6 +145,7 @@ $(function () {
         window.requestAnimationFrame(draw);
     }
 
+    init_bobs();
     window.requestAnimationFrame(draw);
 
 });

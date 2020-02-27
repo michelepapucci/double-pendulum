@@ -12,22 +12,29 @@
     <script src="js/pendulum.js"></script>
 </head>
 <body class="h-100 d-flex">
-<div class="mx-auto my-auto">
-    <canvas width="500" height="500" id="mainCanvas" class="border border-dark"></canvas>
-    <div>
-        <form>
-            <div class="form-row d-flex text-center">
-                <div class="form-group col-6 d-flex flex-column">
-                    <label for="bob1_m">Inner Bob's mass</label>
-                    <input type="range" id="bob1_m" min="1" max="30" step="0.1" value="10">
+    <div class="row no-gutters w-100">
+        <div class="col-3 my-auto px-4">
+            <form>
+                <div class="form-row d-flex text-center">
+                    <div class="form-group col d-flex flex-column">
+                        <label for="bob1_m">Inner Bob's mass</label>
+                        <input type="range" id="bob1_m" min="1" max="30" step="0.1" value="10" class="mb-4">
+                        <label for="bob2_m">Outer Bob's mass</label>
+                        <input type="range" id="bob2_m" min="1" max="30" step="0.1" value="10" class="mb-4">
+                        <label for="rod1_l">Inner Rod's length</label>
+                        <input type="range" id="rod1_l" min="20" max="200" step="1" value="100" class="mb-4">
+                        <label for="rod2_l">Outer Rod's Length</label>
+                        <input type="range" id="rod2_l" min="20" max="200" step="1" value="100">
+                    </div>
                 </div>
-                <div class="form-group col-6 d-flex flex-column">
-                    <label for="bob2_m">Outer Bob's mass</label>
-                    <input type="range" id="bob2_m" min="1" max="30" step="0.1" value="10">
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
+        <div class="col-6 my-auto px-2 text-center">
+            <canvas width="500" height="500" id="mainCanvas" class="border border-dark"></canvas>
+        </div>
+        <div class="col-3 my-auto text-center">
+            <span id = "reset" class="btn btn-dark">Start again</span>
+        </div>
     </div>
-</div>
 </body>
 </html>
